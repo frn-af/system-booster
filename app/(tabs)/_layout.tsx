@@ -20,35 +20,36 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        tabBarStyle: {
+          backgroundColor: Colors[colorScheme ?? "light"].background,
+          width: "100%",
+          borderTopWidth: 0,
+          elevation: 0,
+        },
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarInactiveTintColor: Colors[colorScheme ?? "light"].tabIconDefault,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
+          headerShown: false,
+          tabBarShowLabel: false,
           title: "Tab One",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? "light"].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="dashboard" color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="two"
         options={{
+          tabBarShowLabel: false,
+          headerShown: false,
           title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="history" color={color} />
+          ),
         }}
       />
     </Tabs>
