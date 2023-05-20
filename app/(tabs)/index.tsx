@@ -1,14 +1,16 @@
 import { StyleSheet } from "react-native";
 
-import EditScreenInfo from "../../components/EditScreenInfo";
-import { Text, View } from "../../components/Themed";
+import { View } from "../../components/Themed";
 import Header from "../../components/Header";
+import Monitoring from "../../components/monitoring/Monitoring";
+import Card from "../../components/card/Card";
 
 export default function TabOneScreen() {
   return (
     <View style={styles.container}>
       <Header />
-      <Text style={styles.title}>Tab One</Text>
+      <Monitoring />
+      <Card />
     </View>
   );
 }
@@ -16,14 +18,5 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
   },
 });

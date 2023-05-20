@@ -42,7 +42,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="History"
         options={{
           tabBarShowLabel: false,
           headerShown: false,
