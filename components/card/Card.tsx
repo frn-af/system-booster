@@ -1,9 +1,15 @@
 import { Animated } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./card.style";
 import Indicator from "./Indicator";
 import { Text, View } from "../Themed";
 import { FontAwesome5 } from "@expo/vector-icons";
+import ProgresBarTemperature from "./ProgresBarTemperature";
+import ProgresBarHumidity from "./ProgresBarHumidity";
+
+import { useColorScheme } from "react-native";
+
+import Colors from "../../constants/Colors";
 
 //get current time add 0 if less than 10
 const date = new Date();
@@ -35,26 +41,16 @@ const DATA: Data[] = [
   },
 ];
 
-const renderItem = ({ item }: { item: Data }) => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.card} lightColor="#FF7235" darkColor="#171717">
-        {item.label === "Temperatur" && (
-          <FontAwesome5 name="temperature-low" size={40} color="#FF7235" />
-        )}
-        {item.label === "Kelembaban" && (
-          <FontAwesome5 name="wind" size={40} color="#FF7235" />
-        )}
-        <Text style={styles.currentTime}>{time}</Text>
-        <Text style={styles.cardLabel}>{item.label}</Text>
-        <Text style={styles.cardUnit}> in {item.unit}</Text>
-      </View>
-    </View>
-  );
-};
+// const renderItem = ({ item }: { item: Data }) => {
+//   return (
+
+//   );
+// };
 
 export default function Card() {
   const scrollX = React.useRef(new Animated.Value(0)).current;
+  const colorScheme = useColorScheme();
+
   return (
     <View>
       <View style={styles.label}>
@@ -68,7 +64,50 @@ export default function Card() {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        renderItem={renderItem}
+        renderItem={({ item }) => (
+          <View style={styles.container}>
+            <View style={styles.card} lightColor="#FF7235" darkColor="#171717">
+              {item.label === "Temperatur" && <ProgresBarTemperature />}
+              {item.label === "Kelembaban" && <ProgresBarHumidity />}
+              {item.label === "Temperatur" && (
+                <FontAwesome5
+                  name="temperature-low"
+                  size={40}
+                  color={Colors[colorScheme ?? "light"].icon}
+                />
+              )}
+              {item.label === "Kelembaban" && (
+                <FontAwesome5
+                  name="wind"
+                  size={40}
+                  color={Colors[colorScheme ?? "light"].icon}
+                />
+              )}
+              <Text
+                lightColor="#fff"
+                darkColor="#ccc"
+                style={styles.currentTime}
+              >
+                {time}
+              </Text>
+              <Text
+                lightColor="#fff"
+                darkColor="#FF7235"
+                style={styles.cardLabel}
+              >
+                {item.label}
+              </Text>
+              <Text
+                lightColor="#fff"
+                darkColor="#FF7235"
+                style={styles.cardUnit}
+              >
+                {" "}
+                in {item.unit}
+              </Text>
+            </View>
+          </View>
+        )}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { x: scrollX } } }],
           { useNativeDriver: false }

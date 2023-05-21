@@ -25,16 +25,16 @@ export default function Monitoring() {
   };
 
   useEffect(() => {
-    const timeRef = collection(FIREBASE_DB, "tools");
+    const Ref = collection(FIREBASE_DB, "tools");
 
-    const q = doc(timeRef, "time");
+    const q = doc(Ref, "time");
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const data: any = snapshot.data();
       setFermentasi(data.fermentasi);
       setTime(data.timestamp);
     });
 
-    const q2 = doc(timeRef, "monitoring");
+    const q2 = doc(Ref, "monitoring");
     const unsubscribe2 = onSnapshot(q2, (snapshot) => {
       const data: any = snapshot.data();
       setIsEnabled(data.kontrol);

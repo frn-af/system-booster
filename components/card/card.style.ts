@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 10,
     paddingHorizontal: 20,
+    position: "relative",
   },
   label: {
     flexDirection: "row",
@@ -43,12 +44,10 @@ const styles = StyleSheet.create({
     fontFamily: "PoppinsSemiBold",
     fontSize: 20,
     marginTop: 10,
-    color: "#FF7235",
   },
   cardUnit: {
     fontFamily: "PoppinsSemiBold",
     fontSize: 12,
-    color: "#FF7235",
   },
 });
 

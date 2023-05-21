@@ -2,13 +2,16 @@ import { useOAuth } from "@clerk/clerk-expo";
 import React from "react";
 import { Button, View } from "react-native";
 import { useWarmUpBrowser } from "../hooks/useWarmUpBrowser";
+import { Platform } from "react-native";
 
 const SignInWithOAuth = () => {
-  useWarmUpBrowser();
+  if (Platform.OS !== "web") {
+    useWarmUpBrowser();
+  }
 
   const { startOAuthFlow } = useOAuth({ strategy: "oauth_google" });
 
-  const handleSignInWithDiscordPress = React.useCallback(async () => {
+  const handleSignInWithGooglePress = React.useCallback(async () => {
     try {
       const { createdSessionId, signIn, signUp, setActive } =
         await startOAuthFlow({});
@@ -38,7 +41,7 @@ const SignInWithOAuth = () => {
     >
       <Button
         title="Sign in with google"
-        onPress={handleSignInWithDiscordPress}
+        onPress={handleSignInWithGooglePress}
       />
     </View>
   );
