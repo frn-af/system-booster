@@ -13,7 +13,7 @@ export async function getToken(key: string) {
 
 // SecureStore is not supported on the web
 // https://github.com/expo/expo/issues/7744#issuecomment-611093485
-export const tokenCache =
+export const userTokenCache =
   Platform.OS !== "web"
     ? {
         getToken,

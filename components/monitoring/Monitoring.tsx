@@ -1,5 +1,5 @@
 import { Switch, useColorScheme } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styles from "./monitoring.style";
 import { Text, View } from "../Themed";
 import Colors from "../../constants/Colors";
@@ -12,9 +12,6 @@ const year = currentDate.getFullYear();
 export default function Monitoring() {
   const [isEnabled, setIsEnabled] = useState(false);
   const [text, setText] = useState("Offline");
-  const [isRunning, setIsRunning] = useState(false);
-  const [time, setTime] = useState({ hours: 0, minutes: 0, seconds: 0 });
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const colorScheme = useColorScheme();
 
@@ -24,28 +21,6 @@ export default function Monitoring() {
       setText("Offline");
     } else {
       setText("Online");
-    }
-    setIsRunning(!isRunning);
-    if (isRunning) {
-      clearInterval(intervalRef.current!);
-    } else {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      setTime({ hours: 0, minutes: 0, seconds: 0 });
-      intervalRef.current = setInterval(() => {
-        setTime((prevTime) => {
-          const newTime = { ...prevTime };
-          newTime.seconds++;
-          if (newTime.seconds === 60) {
-            newTime.seconds = 0;
-            newTime.minutes++;
-            if (newTime.minutes === 60) {
-              newTime.minutes = 0;
-              newTime.hours++;
-            }
-          }
-          return newTime;
-        });
-      }, 1000);
     }
   };
 
@@ -61,7 +36,7 @@ export default function Monitoring() {
         </Text>
         <Switch
           onValueChange={toggleSwitch}
-          value={isEnabled && isRunning}
+          value={isEnabled}
           thumbColor={isEnabled ? "#f5f5f5" : "#f5f5f5"}
           trackColor={{ false: "#767577", true: "#FF7235" }}
           ios_backgroundColor={Colors[colorScheme ?? "light"].background}
@@ -79,11 +54,7 @@ export default function Monitoring() {
       </View>
       <View style={styles.timelabel}>
         <Text style={styles.textlabel}>lama {`\n`}fermantasi</Text>
-        <Text style={styles.timeinfo}>
-          {`${time.hours.toString().padStart(2, "0")}:${time.minutes
-            .toString()
-            .padStart(2, "0")}:${time.seconds.toString().padStart(2, "0")}`}
-        </Text>
+        <Text style={styles.timeinfo}>20 jam 5 menit</Text>
       </View>
     </View>
   );

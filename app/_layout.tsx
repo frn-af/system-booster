@@ -9,8 +9,8 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
-import { tokenCache } from "../utils/cache";
 import SignInWithOAuth from "../components/SignInWithOAuth";
+import { userTokenCache } from "../utils/userCache";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -55,7 +55,7 @@ function RootLayoutNav() {
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <ClerkProvider
           publishableKey={CLERK_PUBLISHABLE_KEY}
-          tokenCache={tokenCache}
+          tokenCache={userTokenCache}
         >
           <SignedIn>
             <Stack>
