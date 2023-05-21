@@ -8,7 +8,7 @@ import Card from "../../components/card/Card";
 export default function TabOneScreen() {
   return (
     <View style={styles.container}>
-      <Header />
+      <Header title="Dashboard" />
       <Monitoring />
       <Card />
     </View>

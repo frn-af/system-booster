@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     width: width - 40,
     height: height / 3,
     borderRadius: 5,
+    padding: 20,
   },
   history: {
     width: width - 40,
@@ -31,6 +32,23 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: "#FF7235",
     marginRight: 5,
+  },
+  currentTime: {
+    flexGrow: 1,
+    fontFamily: "Poppins",
+    fontSize: 12,
+    marginTop: 10,
+  },
+  cardLabel: {
+    fontFamily: "PoppinsSemiBold",
+    fontSize: 20,
+    marginTop: 10,
+    color: "#FF7235",
+  },
+  cardUnit: {
+    fontFamily: "PoppinsSemiBold",
+    fontSize: 12,
+    color: "#FF7235",
   },
 });
 

@@ -3,12 +3,16 @@ import { StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Text, View } from "./Themed";
 
-export default function Header() {
+type headerProps = {
+  title: string;
+};
+
+export default function Header({ title }: headerProps) {
   return (
     <View style={styles.header}>
       <MaterialIcons color="#FF7235" name="notifications" size={28} />
       <View>
-        <Text style={styles.headerText}>Dashboard</Text>
+        <Text style={styles.headerText}>{title}</Text>
       </View>
     </View>
   );
