@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import SignInWithOAuth from "../components/SignInWithOAuth";
 import { userTokenCache } from "../utils/userCache";
+import SignIn from "../components/screen/SignIn";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -63,7 +64,7 @@ function RootLayoutNav() {
             </Stack>
           </SignedIn>
           <SignedOut>
-            <SignInWithOAuth />
+            <SignIn />
           </SignedOut>
         </ClerkProvider>
       </ThemeProvider>

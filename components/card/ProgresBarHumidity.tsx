@@ -7,6 +7,7 @@ import { FIREBASE_DB } from "../../config/FirebaseConfig";
 
 export function ProgresBarTemperature() {
   const [data, setData] = useState<any>();
+
   const Circle_len = 2 * Math.PI * 80;
   const Circle_radius = Circle_len / (2 * Math.PI);
 
@@ -42,7 +43,6 @@ export function ProgresBarTemperature() {
           top: 60,
           left: 65,
           fontSize: 60,
-          color: "#FF7235",
           fontFamily: "PoppinsSemiBold",
         }}
         lightColor="#fff"
@@ -57,7 +57,6 @@ export function ProgresBarTemperature() {
           r={Circle_radius}
           stroke={colorScheme === "dark" ? "#8B4426" : "#fff"}
           strokeWidth="30"
-          strokeOpacity={0.5}
         />
         <Circle
           cx="100"

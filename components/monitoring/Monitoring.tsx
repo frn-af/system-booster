@@ -9,7 +9,7 @@ import { FIREBASE_DB } from "../../config/FirebaseConfig";
 export default function Monitoring() {
   const [isEnabled, setIsEnabled] = useState(false);
   const [text, setText] = useState("Offline");
-  const [fermentasi, setFermentasi] = useState();
+  const [fermentasi, setFermentasi] = useState<any>();
   const [time, setTime] = useState();
   const [status, setStatus] = useState("Sistem Offline");
   const colorScheme = useColorScheme();
@@ -30,7 +30,9 @@ export default function Monitoring() {
     const q = doc(Ref, "time");
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const data: any = snapshot.data();
+
       setFermentasi(data.fermentasi);
+
       setTime(data.timestamp);
     });
 
@@ -88,7 +90,10 @@ export default function Monitoring() {
       </View>
       <View style={styles.timelabel}>
         <Text style={styles.textlabel}>lama {`\n`}fermantasi</Text>
-        <Text style={styles.timeinfo}>{fermentasi}</Text>
+        <Text style={styles.timeinfo}>
+          {isEnabled === true && fermentasi}
+          {isEnabled === false && "--"}
+        </Text>
       </View>
     </View>
   );

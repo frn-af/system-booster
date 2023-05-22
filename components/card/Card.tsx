@@ -102,7 +102,6 @@ export default function Card() {
                 darkColor="#FF7235"
                 style={styles.cardUnit}
               >
-                {" "}
                 in {item.unit}
               </Text>
             </View>

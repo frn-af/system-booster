@@ -1,10 +1,13 @@
 import { useOAuth } from "@clerk/clerk-expo";
 import React from "react";
-import { Button, View } from "react-native";
+import { Button, TouchableOpacity, View, useColorScheme } from "react-native";
 import { useWarmUpBrowser } from "../hooks/useWarmUpBrowser";
 import { Platform } from "react-native";
-
+import { FontAwesome } from "@expo/vector-icons";
+import { Text } from "./Themed";
 const SignInWithOAuth = () => {
+  const colorScheme = useColorScheme();
+
   if (Platform.OS !== "web") {
     useWarmUpBrowser();
   }
@@ -39,10 +42,29 @@ const SignInWithOAuth = () => {
         justifyContent: "center",
       }}
     >
-      <Button
-        title="Sign in with google"
+      <TouchableOpacity
         onPress={handleSignInWithGooglePress}
-      />
+        style={{
+          width: "60%",
+          height: 80,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-evenly",
+          backgroundColor: "#FF7235",
+          padding: 10,
+          borderRadius: 10,
+          gap: 10,
+        }}
+      >
+        <FontAwesome
+          name="google"
+          size={40}
+          color={colorScheme === "dark" ? "black" : "#fff"}
+        />
+        <Text lightColor="#fff" darkColor="black">
+          Sign in with Google
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
