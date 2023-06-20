@@ -1,4 +1,10 @@
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  View,
+  useColorScheme,
+} from "react-native";
 import React, { useCallback, useEffect, useImperativeHandle } from "react";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
@@ -28,6 +34,8 @@ const BottomSheet = React.forwardRef<BottomSheetRefProps, BottomSheetProps>(
   ({ children }, ref) => {
     const translateY = useSharedValue(0);
     const active = useSharedValue(false);
+
+    const colorScheme = useColorScheme();
 
     const scrollTo = useCallback((destination: number) => {
       "worklet";
@@ -106,7 +114,13 @@ const BottomSheet = React.forwardRef<BottomSheetRefProps, BottomSheetProps>(
         />
         <GestureDetector gesture={gesture}>
           <Animated.View
-            style={[styles.bottomSheetContainer, rBottomSheetStyle]}
+            style={[
+              styles.bottomSheetContainer,
+              rBottomSheetStyle,
+              {
+                backgroundColor: colorScheme === "dark" ? "#171717" : "#fff",
+              },
+            ]}
           >
             <View style={styles.line} />
             {children}
@@ -121,7 +135,6 @@ const styles = StyleSheet.create({
   bottomSheetContainer: {
     height: SCREEN_HEIGHT,
     width: "100%",
-    backgroundColor: "white",
     position: "absolute",
     top: SCREEN_HEIGHT,
     borderRadius: 25,
@@ -129,7 +142,7 @@ const styles = StyleSheet.create({
   line: {
     width: 75,
     height: 4,
-    backgroundColor: "grey",
+    backgroundColor: "#FF7235",
     alignSelf: "center",
     marginVertical: 15,
     borderRadius: 2,

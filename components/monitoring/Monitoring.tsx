@@ -5,9 +5,13 @@ import { Text, View } from "../Themed";
 import Colors from "../../constants/Colors";
 import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { FIREBASE_DB } from "../../config/FirebaseConfig";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import {
+  GestureHandlerRootView,
+  TextInput,
+} from "react-native-gesture-handler";
 import BottomSheet, { BottomSheetRefProps } from "../modal/Modal";
 import Card from "../card/Card";
+import { set } from "react-native-reanimated";
 
 export default function Monitoring() {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -15,6 +19,7 @@ export default function Monitoring() {
   const [fermentasi, setFermentasi] = useState<any>();
   const [time, setTime] = useState();
   const [status, setStatus] = useState("Sistem Offline");
+  const [points, setPoints] = useState<number>();
   const colorScheme = useColorScheme();
 
   const modalRef = useRef<BottomSheetRefProps>(null);
@@ -24,7 +29,7 @@ export default function Monitoring() {
     if (isActive) {
       modalRef.current?.scrollTo(0);
     } else {
-      modalRef.current?.scrollTo(-500);
+      modalRef.current?.scrollTo(-700);
     }
   }, []);
 
@@ -39,6 +44,7 @@ export default function Monitoring() {
     const q = doc(timeRef, "monitoring");
     const data = {
       kontrol: !isEnabled,
+      setpoint: points,
     };
     await updateDoc(q, data);
   };
@@ -132,11 +138,33 @@ export default function Monitoring() {
       </View>
       <Card />
       <BottomSheet ref={modalRef}>
-        <View style={{ flex: 1, backgroundColor: "red" }}>
-          <TouchableOpacity
-            onPress={onPress}
-            style={{ height: 30, width: 30, backgroundColor: "black" }}
-          />
+        <View style={{ flex: 1, alignItems: "center" }}>
+          {isEnabled === true && (
+            <Text style={styles.modallabel}>Matikan Sistem</Text>
+          )}
+          {isEnabled === false && (
+            <Text style={styles.modallabel}>Masukan Nilai Set Point</Text>
+          )}
+          {isEnabled === false && (
+            <TextInput
+              placeholder="Number"
+              keyboardType="numeric"
+              style={styles.input}
+              onChangeText={(text) => {
+                if (isNaN(Number(text))) {
+                  setPoints(0);
+                } else {
+                  setPoints(Number(text));
+                }
+              }}
+              value={points?.toString()}
+              placeholderTextColor="#FF7235"
+            />
+          )}
+
+          <TouchableOpacity onPress={onPress} style={styles.button}>
+            <Text style={styles.buttontext}>Submit</Text>
+          </TouchableOpacity>
         </View>
       </BottomSheet>
     </GestureHandlerRootView>
