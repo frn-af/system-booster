@@ -1,6 +1,12 @@
 import { FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
-import { collection, doc, onSnapshot } from "@firebase/firestore";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+} from "@firebase/firestore";
 import { FIREBASE_DB } from "../../config/FirebaseConfig";
 import { Text, View } from "../Themed";
 import Accordion from "../accordion/Accordion";
@@ -17,7 +23,11 @@ const ListHistory = () => {
 
   useEffect(() => {
     const historyRef = collection(FIREBASE_DB, "history");
-    const subs = onSnapshot(historyRef, (snapshot) => {
+
+    //order by timestamp
+    const q = query(historyRef, orderBy("timestamp", "desc"));
+
+    const subs = onSnapshot(q, (snapshot) => {
       const data: any[] = [];
       snapshot.docs.forEach((doc) => {
         data.push({
@@ -28,7 +38,6 @@ const ListHistory = () => {
         });
       });
       setData(data);
-      console.log(data);
     });
 
     return () => subs();

@@ -114,7 +114,7 @@ const Accordion: React.FC<AccordionProps> = ({ item }) => {
       </TouchableOpacity>
       <MaterialCommunityIcons
         name="tag-arrow-right-outline"
-        size={40}
+        size={30}
         color="#FF7235"
         style={{ position: "absolute", right: 20, top: 20 }}
       />

@@ -3,7 +3,13 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./monitoring.style";
 import { Text, View } from "../Themed";
 import Colors from "../../constants/Colors";
-import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
 import { FIREBASE_DB } from "../../config/FirebaseConfig";
 import {
   GestureHandlerRootView,
@@ -46,6 +52,16 @@ export default function Monitoring() {
       setpoint: points,
     };
     await updateDoc(q, data);
+  };
+
+  const createHistory = async () => {
+    const historyRef = collection(FIREBASE_DB, "history");
+    const data = {
+      set_point: points,
+      lama_fermentasi: fermentasi,
+      timestamp: time,
+    };
+    await addDoc(historyRef, data);
   };
 
   useEffect(() => {
@@ -98,6 +114,9 @@ export default function Monitoring() {
     setIsEnabled((previousState) => !previousState);
     updateData();
     closeModal();
+    if (isEnabled === true) {
+      createHistory();
+    }
   };
 
   return (

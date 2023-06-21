@@ -1,9 +1,7 @@
 import { Button, StyleSheet } from "react-native";
-import { Text, View } from "../../components/Themed";
+import { View } from "../../components/Themed";
 import Header from "../../components/Header";
 import { useAuth } from "@clerk/clerk-expo";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Accordion from "../../components/accordion/Accordion";
 import ListHistory from "../../components/screen/ListHistory";
 
 const SignOut = () => {
