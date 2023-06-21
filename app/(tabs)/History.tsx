@@ -3,6 +3,8 @@ import { Text, View } from "../../components/Themed";
 import Header from "../../components/Header";
 import { useAuth } from "@clerk/clerk-expo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Accordion from "../../components/accordion/Accordion";
+import ListHistory from "../../components/screen/ListHistory";
 
 const SignOut = () => {
   const { signOut } = useAuth();
@@ -22,16 +24,7 @@ export default function History() {
   return (
     <View style={styles.container}>
       <Header title="History" />
-      <View style={styles.card}>
-        <Text style={styles.cardLabel}>27 Juni,{`\n`}2023</Text>
-        <Text style={styles.details}>lihat detail</Text>
-        <MaterialCommunityIcons
-          name="tag-arrow-right-outline"
-          size={40}
-          color="#FF7235"
-          style={{ position: "absolute", right: 20, top: 20 }}
-        />
-      </View>
+      <ListHistory />
     </View>
   );
 }

@@ -11,7 +11,6 @@ import {
 } from "react-native-gesture-handler";
 import BottomSheet, { BottomSheetRefProps } from "../modal/Modal";
 import Card from "../card/Card";
-import { set } from "react-native-reanimated";
 
 export default function Monitoring() {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -19,7 +18,7 @@ export default function Monitoring() {
   const [fermentasi, setFermentasi] = useState<any>();
   const [time, setTime] = useState();
   const [status, setStatus] = useState("Sistem Offline");
-  const [points, setPoints] = useState<number>();
+  const [points, setPoints] = useState<number>(0);
   const colorScheme = useColorScheme();
 
   const modalRef = useRef<BottomSheetRefProps>(null);
