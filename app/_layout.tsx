@@ -1,4 +1,3 @@
-import { ClerkProvider, SignedIn, SignedOut } from "@clerk/clerk-expo";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
   DarkTheme,
@@ -9,9 +8,6 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
-import SignInWithOAuth from "../components/SignInWithOAuth";
-import { userTokenCache } from "../utils/userCache";
-import SignIn from "../components/screen/SignIn";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -45,28 +41,15 @@ export default function RootLayout() {
   );
 }
 
-const CLERK_PUBLISHABLE_KEY =
-  "pk_test_YW11c2VkLXRyb2xsLTg1LmNsZXJrLmFjY291bnRzLmRldiQ";
-
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
     <>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <ClerkProvider
-          publishableKey={CLERK_PUBLISHABLE_KEY}
-          tokenCache={userTokenCache}
-        >
-          <SignedIn>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            </Stack>
-          </SignedIn>
-          <SignedOut>
-            <SignIn />
-          </SignedOut>
-        </ClerkProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
       </ThemeProvider>
     </>
   );

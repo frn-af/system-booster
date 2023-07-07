@@ -1,5 +1,5 @@
 import { Animated } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./card.style";
 import Indicator from "./Indicator";
 import { Text, View } from "../Themed";
@@ -10,14 +10,6 @@ import ProgresBarHumidity from "./ProgresBarHumidity";
 import { useColorScheme } from "react-native";
 
 import Colors from "../../constants/Colors";
-
-//get current time add 0 if less than 10
-const date = new Date();
-const hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
-const minutes =
-  date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-
-const time = hours + ":" + minutes + " WIB";
 
 interface Data {
   key: string;
@@ -50,6 +42,23 @@ const DATA: Data[] = [
 export default function Card() {
   const scrollX = React.useRef(new Animated.Value(0)).current;
   const colorScheme = useColorScheme();
+  const [time, setTime] = useState<string>();
+
+  useEffect(() => {
+    // realtime time
+    const interval = setInterval(() => {
+      const date = new Date();
+      const hours =
+        date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+      const minutes =
+        date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+
+      const time = hours + ":" + minutes + " WIB";
+      setTime(time);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <View>

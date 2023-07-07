@@ -32,9 +32,7 @@ const ListHistory = () => {
       snapshot.docs.forEach((doc) => {
         data.push({
           id: doc.id,
-          set_point: doc.data().set_point,
-          lama_fermentasi: doc.data().lama_fermentasi,
-          timestamp: doc.data().timestamp,
+          ...doc.data(),
         });
       });
       setData(data);

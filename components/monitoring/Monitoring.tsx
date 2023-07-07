@@ -114,7 +114,7 @@ export default function Monitoring() {
     setIsEnabled((previousState) => !previousState);
     updateData();
     closeModal();
-    if (isEnabled === true) {
+    if (isEnabled === false) {
       createHistory();
     }
   };
