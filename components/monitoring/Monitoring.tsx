@@ -3,13 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./monitoring.style";
 import { Text, View } from "../Themed";
 import Colors from "../../constants/Colors";
-import {
-  addDoc,
-  collection,
-  doc,
-  onSnapshot,
-  updateDoc,
-} from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { FIREBASE_DB } from "../../config/FirebaseConfig";
 import {
   GestureHandlerRootView,
@@ -17,13 +11,12 @@ import {
 } from "react-native-gesture-handler";
 import BottomSheet, { BottomSheetRefProps } from "../modal/Modal";
 import Card from "../card/Card";
+import useDoc from "../../hooks/useDoc";
 
 export default function Monitoring() {
   const [isEnabled, setIsEnabled] = useState(false);
-  const [text, setText] = useState("Offline");
-  const [fermentasi, setFermentasi] = useState<any>();
+  const [fermentasi, setFermentasi] = useState("--");
   const [time, setTime] = useState();
-  const [status, setStatus] = useState("Sistem Offline");
   const [points, setPoints] = useState<number>(0);
   const colorScheme = useColorScheme();
 
@@ -64,46 +57,20 @@ export default function Monitoring() {
     await addDoc(historyRef, data);
   };
 
+  const { data } = useDoc("tools", "monitoring");
+  const { data: timeinfo } = useDoc("tools", "time");
+
   useEffect(() => {
-    const Ref = collection(FIREBASE_DB, "tools");
+    if (timeinfo) {
+      setFermentasi(timeinfo?.fermentasi);
+      setTime(timeinfo?.timestamp);
+    }
 
-    const q = doc(Ref, "time");
-    // const t = collection(q, "history");
-    // const uns = onSnapshot(t, (snapshot) => {
-    //   const data: any [] = [];
-    //   snapshot.docs.forEach((doc) => {
-    //     data.push({
-    //       id: doc.id,
-    //       ...doc.data(),
-    //     });
-    //   });
-    //   console.log(data);
-    // });
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data: any = snapshot.data();
-      setFermentasi(data.fermentasi);
-
-      setTime(data.timestamp);
-    });
-
-    const q2 = doc(Ref, "monitoring");
-    const unsubscribe2 = onSnapshot(q2, (snapshot) => {
-      const data: any = snapshot.data();
-      setIsEnabled(data.kontrol);
-      setText(data.kontrol ? "Online" : "Offline");
-      if (data.kontrol == false) {
-        setStatus("Sistem Offline");
-      } else if (data.kontrol == true && data.ph <= 4) {
-        setStatus("Tapai Sudah Matang");
-      } else {
-        setStatus("Tapai Belum Matang");
-      }
-    });
-
-    return () => {
-      unsubscribe();
-      unsubscribe2();
-    };
+    if (data?.kontrol == true) {
+      setIsEnabled(true);
+    } else {
+      setIsEnabled(false);
+    }
   }, []);
 
   const toggleSwitch = () => {
@@ -123,12 +90,17 @@ export default function Monitoring() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
         <Text style={styles.status}>status</Text>
-        <Text style={styles.tapestatus}>{status}</Text>
+        <Text style={styles.tapestatus}>
+          {data?.kontrol == true && data?.ph <= 4 && "Tapai Sudah Matang"}
+          {data?.kontrol == true && data?.ph > 4 && "Tapai Belum Matang"}
+          {data?.kontrol == false && "Sistem Offline"}
+        </Text>
         <View style={styles.sisteminfo}>
           <Text style={styles.textlabel}>Aktivasi {`\n`}Sistem</Text>
           <Text style={styles.textlabel}>
             Sistem {`\n`}
-            {text}
+            {data?.kontrol == true && "Online"}
+            {data?.kontrol == false && "Offline"}
           </Text>
           <Switch
             onValueChange={toggleSwitch}

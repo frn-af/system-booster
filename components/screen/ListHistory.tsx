@@ -42,7 +42,7 @@ const ListHistory = () => {
   }, []);
 
   return (
-    <View>
+    <View style={{ paddingBottom: 150 }}>
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}

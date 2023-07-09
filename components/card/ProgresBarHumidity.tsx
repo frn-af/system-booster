@@ -1,32 +1,17 @@
 import { View, useColorScheme } from "react-native";
-import React, { useEffect, useState } from "react";
 import { Circle, Svg } from "react-native-svg";
 import { Text } from "../Themed";
-import { collection, doc, onSnapshot } from "firebase/firestore";
-import { FIREBASE_DB } from "../../config/FirebaseConfig";
+import useDoc from "../../hooks/useDoc";
 
 export function ProgresBarTemperature() {
-  const [data, setData] = useState<any>();
-
   const Circle_len = 2 * Math.PI * 80;
   const Circle_radius = Circle_len / (2 * Math.PI);
 
   const colorScheme = useColorScheme();
 
-  useEffect(() => {
-    const Ref = collection(FIREBASE_DB, "tools");
-    const q2 = doc(Ref, "monitoring");
-    const unsubscribe2 = onSnapshot(q2, (snapshot) => {
-      const data: any = snapshot.data();
-      if (data.kontrol == false) {
-        setData("--");
-      } else {
-        setData(data.kelembaban);
-      }
-    });
-  }, []);
+  const { data: kelembaban } = useDoc("tools", "monitoring");
 
-  const DashOffset = Circle_len * (1 - data / 100);
+  const DashOffset = Circle_len * (1 - kelembaban?.kelembaban / 100);
   return (
     <View
       style={{
@@ -48,7 +33,7 @@ export function ProgresBarTemperature() {
         lightColor="#fff"
         darkColor="#FF7235"
       >
-        {data}
+        {kelembaban?.kontrol == false ? "--" : kelembaban?.kelembaban}
       </Text>
       <Svg>
         <Circle
