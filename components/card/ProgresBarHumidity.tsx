@@ -50,7 +50,7 @@ export function ProgresBarTemperature() {
           stroke={colorScheme === "dark" ? "#FF7235" : "#FFB89A"}
           strokeWidth="25"
           strokeDasharray={Circle_len}
-          strokeDashoffset={DashOffset}
+          strokeDashoffset={kelembaban?.kontrol == false ? 0 : DashOffset}
           strokeLinecap={"round"}
         />
       </Svg>

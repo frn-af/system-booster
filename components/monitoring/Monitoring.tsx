@@ -15,12 +15,13 @@ import useDoc from "../../hooks/useDoc";
 
 export default function Monitoring() {
   const [isEnabled, setIsEnabled] = useState(false);
-  const [fermentasi, setFermentasi] = useState("--");
-  const [time, setTime] = useState();
   const [points, setPoints] = useState<number>(0);
+  const [date, setDate] = useState("");
   const colorScheme = useColorScheme();
 
   const modalRef = useRef<BottomSheetRefProps>(null);
+  const { data } = useDoc("tools", "monitoring");
+  const { data: timeinfo } = useDoc("tools", "time");
 
   const openModal = useCallback(() => {
     const isActive = modalRef.current?.isActive();
@@ -51,26 +52,23 @@ export default function Monitoring() {
     const historyRef = collection(FIREBASE_DB, "history");
     const data = {
       set_point: points,
-      lama_fermentasi: fermentasi,
-      timestamp: time,
+      lama_fermentasi: timeinfo?.time,
+      timestamp: date,
     };
     await addDoc(historyRef, data);
   };
 
-  const { data } = useDoc("tools", "monitoring");
-  const { data: timeinfo } = useDoc("tools", "time");
-
   useEffect(() => {
-    if (timeinfo) {
-      setFermentasi(timeinfo?.fermentasi);
-      setTime(timeinfo?.timestamp);
-    }
-
     if (data?.kontrol == true) {
       setIsEnabled(true);
     } else {
       setIsEnabled(false);
     }
+
+    const date = new Date();
+    const time = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+
+    setDate(time);
   }, []);
 
   const toggleSwitch = () => {
@@ -116,13 +114,13 @@ export default function Monitoring() {
         </View>
         <View style={styles.timelabel}>
           <Text style={styles.textlabel}>tanggal</Text>
-          <Text style={styles.timeinfo}>{time}</Text>
+          <Text style={styles.timeinfo}>{date}</Text>
         </View>
         <View style={styles.timelabel}>
           <Text style={styles.textlabel}>lama {`\n`}fermantasi</Text>
           <Text style={styles.timeinfo}>
-            {isEnabled === true && fermentasi}
-            {isEnabled === false && "--"}
+            {data?.kontrol == true && timeinfo?.time}
+            {data?.kontrol == false && "--"}
           </Text>
         </View>
       </View>
