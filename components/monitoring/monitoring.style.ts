@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
   input: {
     color: "#FF7235",
     fontSize: 20,
-    backgroundColor: "#171717",
     width: 100,
     height: 50,
     borderRadius: 10,
@@ -59,6 +58,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     fontFamily: "PoppinsSemiBold",
+    marginTop: 20,
+  },
+  historyTitle: {
+    color: "#FF7235",
+    fontFamily: "PoppinsSemiBold",
+    fontSize: 20,
+    width: "80%",
+    borderRadius: 10,
+    height: 50,
+    textAlign: "center",
     marginTop: 20,
   },
   modallabel: {

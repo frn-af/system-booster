@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./monitoring.style";
 import { Text, View } from "../Themed";
 import Colors from "../../constants/Colors";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { FIREBASE_DB } from "../../config/FirebaseConfig";
 import {
   GestureHandlerRootView,
@@ -15,8 +15,9 @@ import useDoc from "../../hooks/useDoc";
 
 export default function Monitoring() {
   const [isEnabled, setIsEnabled] = useState(false);
-  const [points, setPoints] = useState<number>(0);
+  const [points, setPoints] = useState<number>();
   const [date, setDate] = useState("");
+  const [history, setHistory] = useState<any>("");
   const colorScheme = useColorScheme();
 
   const modalRef = useRef<BottomSheetRefProps>(null);
@@ -40,22 +41,26 @@ export default function Monitoring() {
   //make a function for update data
   const updateData = async () => {
     const timeRef = collection(FIREBASE_DB, "tools");
-    const q = doc(timeRef, "monitoring");
-    const data = {
+    const docRef = doc(timeRef, "monitoring");
+    const payload = {
       kontrol: !isEnabled,
       setpoint: points,
+      history: history,
     };
-    await updateDoc(q, data);
+    await updateDoc(docRef, payload);
   };
 
   const createHistory = async () => {
     const historyRef = collection(FIREBASE_DB, "history");
-    const data = {
+    const docRef = doc(historyRef, history);
+    const payload = {
       set_point: points,
       lama_fermentasi: timeinfo?.time,
       timestamp: date,
+      suhu: [],
+      kelebaban: [],
     };
-    await addDoc(historyRef, data);
+    await setDoc(docRef, payload);
   };
 
   useEffect(() => {
@@ -135,9 +140,36 @@ export default function Monitoring() {
           )}
           {isEnabled === false && (
             <TextInput
+              placeholder="Please input history title"
+              style={[
+                styles.historyTitle,
+                {
+                  backgroundColor:
+                    colorScheme === "dark" ? "#171717" : "#f1f1f1",
+                  color: colorScheme === "dark" ? "#FF7235" : "#000",
+                },
+              ]}
+              onChangeText={(text) => {
+                setHistory(text);
+              }}
+              value={history}
+              placeholderTextColor={
+                colorScheme === "dark" ? "#825d4e" : "#808080"
+              }
+            />
+          )}
+          {isEnabled === false && (
+            <TextInput
               placeholder="Number"
               keyboardType="numeric"
-              style={styles.input}
+              style={[
+                styles.input,
+                {
+                  backgroundColor:
+                    colorScheme === "dark" ? "#171717" : "#f1f1f1",
+                  color: colorScheme === "dark" ? "#FF7235" : "#000",
+                },
+              ]}
               onChangeText={(text) => {
                 if (isNaN(Number(text))) {
                   setPoints(0);
@@ -146,7 +178,9 @@ export default function Monitoring() {
                 }
               }}
               value={points?.toString()}
-              placeholderTextColor="#FF7235"
+              placeholderTextColor={
+                colorScheme === "dark" ? "#825d4e" : "#808080"
+              }
             />
           )}
 
