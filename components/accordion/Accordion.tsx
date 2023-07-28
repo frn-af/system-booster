@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Collapsible from "react-native-collapsible";
 import { Text, View } from "../Themed";
@@ -11,24 +11,37 @@ interface Item {
   set_point: string;
   lama_fermentasi: string;
   timestamp: string;
+  suhu: number[];
+  kelembaban: number[];
 }
 
 interface AccordionProps {
   item: Item;
 }
 
+const mean = (arr: number[]) => {
+  return arr.reduce((a, b) => a + b, 0) / arr.length;
+};
+
 const Accordion: React.FC<AccordionProps> = ({ item }) => {
   const [collapsed, setCollapsed] = useState(true);
+  const [meanSuhu, setMeanSuhu] = useState(0);
+  const [meanKelembaban, setMeanKelembaban] = useState(0);
 
   const colorScheme = useColorScheme();
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
 
+  useEffect(() => {
+    setMeanSuhu(mean(item.suhu));
+    setMeanKelembaban(mean(item.kelembaban));
+  }, [item.suhu, item.kelembaban]);
+
   return (
     <View style={styles.card} darkColor="#171717" lightColor="#FF7235">
       <Text style={styles.cardLabel} darkColor="#FF7235" lightColor="#fff">
-        {item.timestamp}
+        {item.id}
       </Text>
 
       <View
@@ -43,7 +56,23 @@ const Accordion: React.FC<AccordionProps> = ({ item }) => {
             lightColor="white"
             darkColor="#FF7235"
           >
-            Set Point:
+            Tanggal
+          </Text>
+          <Text
+            lightColor="white"
+            darkColor="#FF7235"
+            style={styles.detailLables}
+          >
+            {item.timestamp}
+          </Text>
+        </View>
+        <View style={styles.collaps} lightColor="#FF7235" darkColor="#171717">
+          <Text
+            style={styles.detailLables}
+            lightColor="white"
+            darkColor="#FF7235"
+          >
+            Set Point
           </Text>
           <Text
             lightColor="white"
@@ -59,7 +88,7 @@ const Accordion: React.FC<AccordionProps> = ({ item }) => {
             darkColor="#FF7235"
             style={styles.detailLables}
           >
-            Lama Fermentasi :
+            Lama Fermentasi
           </Text>
           <Text
             lightColor="white"
@@ -75,14 +104,14 @@ const Accordion: React.FC<AccordionProps> = ({ item }) => {
             darkColor="#FF7235"
             style={styles.detailLables}
           >
-            Nilai Suhu:
+            Rata-rata {"\n"}Suhu
           </Text>
           <Text
             lightColor="white"
             darkColor="#FF7235"
             style={styles.detailLables}
           >
-            30°C
+            {meanSuhu} °C/jam
           </Text>
         </View>
         <View style={styles.collaps} lightColor="#FF7235" darkColor="#171717">
@@ -91,14 +120,14 @@ const Accordion: React.FC<AccordionProps> = ({ item }) => {
             darkColor="#FF7235"
             style={styles.detailLables}
           >
-            Nilai Kelembaban:
+            Rata-rata {"\n"}Kelembaban
           </Text>
           <Text
             lightColor="white"
             darkColor="#FF7235"
             style={styles.detailLables}
           >
-            30°C
+            {meanKelembaban} %/jam
           </Text>
         </View>
       </Collapsible>
@@ -125,7 +154,7 @@ const Accordion: React.FC<AccordionProps> = ({ item }) => {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 10,
-    padding: 20,
+    padding: 30,
     marginVertical: 5,
     marginHorizontal: 20,
   },
@@ -149,6 +178,7 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: "row",
     justifyContent: "space-between",
+    marginBottom: 10,
   },
   detailLables: {
     fontSize: 16,

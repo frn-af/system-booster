@@ -58,7 +58,7 @@ export default function Monitoring() {
       lama_fermentasi: timeinfo?.time,
       timestamp: date,
       suhu: [],
-      kelebaban: [],
+      kelembaban: [],
     };
     await setDoc(docRef, payload);
   };

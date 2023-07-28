@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Text, View } from "./Themed";
+import { Link } from "expo-router";
 
 type headerProps = {
   title: string;
@@ -10,7 +11,10 @@ type headerProps = {
 export default function Header({ title }: headerProps) {
   return (
     <View style={styles.header}>
-      <MaterialIcons color="#FF7235" name="notifications" size={28} />
+      <Link href="/chart">
+        <MaterialIcons color="#FF7235" name="notifications" size={28} />
+      </Link>
+
       <View>
         <Text style={styles.headerText}>{title}</Text>
       </View>

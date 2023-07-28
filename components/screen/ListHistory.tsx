@@ -8,7 +8,7 @@ import {
   query,
 } from "@firebase/firestore";
 import { FIREBASE_DB } from "../../config/FirebaseConfig";
-import { Text, View } from "../Themed";
+import { View } from "../Themed";
 import Accordion from "../accordion/Accordion";
 
 interface Item {
@@ -16,6 +16,8 @@ interface Item {
   set_point: string;
   lama_fermentasi: string;
   timestamp: string;
+  suhu: number[];
+  kelembaban: number[];
 }
 
 const ListHistory = () => {
