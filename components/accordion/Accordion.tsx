@@ -144,7 +144,7 @@ const Accordion: React.FC<AccordionProps> = ({ item }) => {
       <MaterialCommunityIcons
         name="tag-arrow-right-outline"
         size={30}
-        color="#FF7235"
+        color={Colors[colorScheme ?? "light"].textDecor}
         style={{ position: "absolute", right: 20, top: 20 }}
       />
     </View>

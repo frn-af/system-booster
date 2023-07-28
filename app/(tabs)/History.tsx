@@ -1,22 +1,7 @@
 import { Button, StyleSheet } from "react-native";
 import { View } from "../../components/Themed";
 import Header from "../../components/Header";
-import { useAuth } from "@clerk/clerk-expo";
 import ListHistory from "../../components/screen/ListHistory";
-
-const SignOut = () => {
-  const { signOut } = useAuth();
-  return (
-    <View>
-      <Button
-        title="Sign Out"
-        onPress={() => {
-          signOut();
-        }}
-      />
-    </View>
-  );
-};
 
 export default function History() {
   return (

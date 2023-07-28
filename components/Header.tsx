@@ -25,7 +25,7 @@ export default function Header({ title }: headerProps) {
 const styles = StyleSheet.create({
   header: {
     height: 80,
-    marginTop: 40,
+    marginTop: 20,
     paddingHorizontal: 20,
     flexDirection: "row",
     alignItems: "center",
