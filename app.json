@@ -22,11 +22,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.frn.af.tugasakhir",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
       "favicon": "./assets/images/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "369d3bc3-2784-413a-ab25-e3fe3ce3a91f"
+      }
+    },
+    "owner": "frn.af"
   }
 }
