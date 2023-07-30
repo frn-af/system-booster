@@ -1,33 +1,38 @@
 import { Button } from "react-native";
 import { Text, View } from "../components/Themed";
-import notifee from "@notifee/react-native";
+import { useEffect, useState } from "react";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { FIREBASE_DB } from "../config/FirebaseConfig";
+import { FlatList } from "react-native-gesture-handler";
 
 function Notification() {
-  async function onDisplayNotification() {
-    // Request permissions (required for iOS)
-    await notifee.requestPermission();
+  const [notification, setNotification] = useState<any>();
 
-    // Create a channel (required for Android)
-    const channelId = await notifee.createChannel({
-      id: "default",
-      name: "Default Channel",
+  useEffect(() => {
+    const notifRef = collection(FIREBASE_DB, "notification");
+    const q = query(notifRef, orderBy("timestamp", "desc"));
+
+    const subs = onSnapshot(q, (snapshot) => {
+      const data: any[] = [];
+      snapshot.docs.forEach((doc) => {
+        data.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+      setNotification(data);
     });
 
-    // Display a notification
-    await notifee.displayNotification({
-      title: "Notification Title",
-      body: "Main body content of the notification",
-      android: {
-        channelId,
-      },
-    });
-  }
+    return () => subs();
+  }, []);
 
   return (
     <View>
-      <Button
-        title="Display Notification"
-        onPress={() => onDisplayNotification()}
+      <Text>Notification</Text>
+      <FlatList
+        data={notification}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <Text>{item.title}</Text>}
       />
     </View>
   );

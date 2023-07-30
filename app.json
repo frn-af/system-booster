@@ -12,9 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.frn.af.tugasakhir"
@@ -24,7 +22,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.frn.af.tugasakhir"
+      "package": "com.frn.af.tugasakhir",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -34,6 +33,10 @@
       "eas": {
         "projectId": "369d3bc3-2784-413a-ab25-e3fe3ce3a91f"
       }
+    },
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/369d3bc3-2784-413a-ab25-e3fe3ce3a91f"
     }
   }
 }
