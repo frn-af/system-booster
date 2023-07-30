@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./monitoring.style";
 import { Text, View } from "../Themed";
 import Colors from "../../constants/Colors";
-import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { FIREBASE_DB } from "../../config/FirebaseConfig";
 import {
   GestureHandlerRootView,
@@ -43,7 +43,7 @@ export default function Monitoring() {
     const timeRef = collection(FIREBASE_DB, "tools");
     const docRef = doc(timeRef, "monitoring");
     const payload = {
-      kontrol: !isEnabled,
+      kontrol: !data.kontrol,
       setpoint: points,
       history: history,
     };
@@ -64,12 +64,6 @@ export default function Monitoring() {
   };
 
   useEffect(() => {
-    if (data?.kontrol == true) {
-      setIsEnabled(true);
-    } else {
-      setIsEnabled(false);
-    }
-
     const date = new Date();
     const time = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
 
@@ -81,7 +75,7 @@ export default function Monitoring() {
   };
 
   const onPress = () => {
-    setIsEnabled((previousState) => !previousState);
+    setIsEnabled(!data?.kontrol);
     updateData();
     closeModal();
     if (isEnabled === false) {
@@ -107,8 +101,8 @@ export default function Monitoring() {
           </Text>
           <Switch
             onValueChange={toggleSwitch}
-            value={isEnabled}
-            thumbColor={isEnabled ? "#f5f5f5" : "#f5f5f5"}
+            value={data?.kontrol}
+            thumbColor={data?.kontrol ? "#f5f5f5" : "#f5f5f5"}
             trackColor={{ false: "#767577", true: "#FF7235" }}
             ios_backgroundColor={Colors[colorScheme ?? "light"].background}
             style={{
@@ -132,13 +126,13 @@ export default function Monitoring() {
       <Card />
       <BottomSheet ref={modalRef}>
         <View style={{ flex: 1, alignItems: "center" }}>
-          {isEnabled === true && (
+          {data?.kontrol === true && (
             <Text style={styles.modallabel}>Matikan Sistem</Text>
           )}
-          {isEnabled === false && (
+          {data?.kontrol === false && (
             <Text style={styles.modallabel}>Masukan Nilai Set Point</Text>
           )}
-          {isEnabled === false && (
+          {data?.kontrol === false && (
             <TextInput
               placeholder="Please input history title"
               style={[
@@ -158,7 +152,7 @@ export default function Monitoring() {
               }
             />
           )}
-          {isEnabled === false && (
+          {data?.kontrol === false && (
             <TextInput
               placeholder="Number"
               keyboardType="numeric"
