@@ -8,6 +8,7 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
+import registerNNPushToken from "native-notify";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -20,6 +21,8 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
+  registerNNPushToken(9849, "MLENeeUtxrJE0rYHESEHYO");
+
   const [loaded, error] = useFonts({
     Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
     PoppinsSemiBold: require("../assets/fonts/Poppins-SemiBold.ttf"),
