@@ -28,9 +28,9 @@ export default function Header({ title }: headerProps) {
     <View style={styles.header}>
       <Link href="/notification">
         {count ? (
-          <MaterialCommunityIcons name="bell-badge" size={24} color="#FF7258" />
+          <MaterialCommunityIcons name="bell-badge" size={24} color="#FF7235" />
         ) : (
-          <MaterialCommunityIcons name="bell" size={24} color="#FF7258" />
+          <MaterialCommunityIcons name="bell" size={24} color="#FF7235" />
         )}
       </Link>
 
