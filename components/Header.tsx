@@ -1,18 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
 import { Text, View } from "./Themed";
 import { Link } from "expo-router";
+import { getUnreadNotificationInboxCount } from "native-notify";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 type headerProps = {
   title: string;
 };
 
 export default function Header({ title }: headerProps) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const fetchNotification = async () => {
+      const res = await getUnreadNotificationInboxCount(
+        9849,
+        "MLENeeUtxrJE0rYHESEHYO"
+      );
+      setCount(res);
+    };
+
+    fetchNotification();
+  }, []);
+
   return (
     <View style={styles.header}>
       <Link href="/notification">
-        <MaterialIcons color="#FF7235" name="notifications" size={28} />
+        {count ? (
+          <MaterialCommunityIcons name="bell-badge" size={24} color="#FF7258" />
+        ) : (
+          <MaterialCommunityIcons name="bell" size={24} color="#FF7258" />
+        )}
       </Link>
 
       <View>
@@ -35,9 +54,5 @@ const styles = StyleSheet.create({
     fontFamily: "PoppinsSemiBold",
     fontSize: 20,
     letterSpacing: 1,
-  },
-  icon: {
-    position: "absolute",
-    left: 16,
   },
 });

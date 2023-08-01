@@ -1,12 +1,6 @@
-import { FlatList } from "react-native";
-import React, { useEffect, useState } from "react";
-import {
-  collection,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-} from "@firebase/firestore";
+import { FlatList, RefreshControl } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { collection, onSnapshot, orderBy, query } from "@firebase/firestore";
 import { FIREBASE_DB } from "../../config/FirebaseConfig";
 import { View } from "../Themed";
 import Accordion from "../accordion/Accordion";
@@ -22,6 +16,14 @@ interface Item {
 
 const ListHistory = () => {
   const [data, setData] = useState<Item[]>();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   useEffect(() => {
     const historyRef = collection(FIREBASE_DB, "history");
@@ -49,6 +51,9 @@ const ListHistory = () => {
         data={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <Accordion item={item} />}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </View>
   );

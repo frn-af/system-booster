@@ -1,4 +1,4 @@
-import { Button, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { View } from "../../components/Themed";
 import Header from "../../components/Header";
 import ListHistory from "../../components/screen/ListHistory";
