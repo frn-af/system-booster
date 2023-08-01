@@ -11,7 +11,7 @@ type headerProps = {
 export default function Header({ title }: headerProps) {
   return (
     <View style={styles.header}>
-      <Link href="/chart">
+      <Link href="/notification">
         <MaterialIcons color="#FF7235" name="notifications" size={28} />
       </Link>
 
