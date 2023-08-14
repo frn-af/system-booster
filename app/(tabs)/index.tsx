@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 import Monitoring from "../../components/monitoring/Monitoring";
 import { useCallback, useState } from "react";
 import { FlatList, RefreshControl } from "react-native-gesture-handler";
+import { set } from "date-fns";
 
 const data = [
   {
@@ -13,15 +14,6 @@ const data = [
 ];
 
 export default function TabOneScreen() {
-  const [refreshing, setRefreshing] = useState(false);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
-
   return (
     <View style={styles.container}>
       <Header title="Dashboard" />
@@ -29,9 +21,6 @@ export default function TabOneScreen() {
         data={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <Monitoring />}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
       />
     </View>
   );

@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: width - 40,
-    height: height / 3.1,
+    height: height / 3,
     borderRadius: 5,
     padding: 20,
   },
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
   cardLabel: {
     fontFamily: "PoppinsSemiBold",
-    fontSize: 20,
+    fontSize: 16,
     marginTop: 10,
   },
   cardUnit: {

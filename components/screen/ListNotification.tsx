@@ -36,7 +36,7 @@ const ListNotification: React.FC<ListNotificationProps> = ({ item }) => {
 
   return (
     <View style={styles.wrapper}>
-      <View>
+      <View style={{ flexGrow: 1, width: "70%" }}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.message}>{item.message}</Text>
       </View>
@@ -53,15 +53,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#FF7235",
     flexDirection: "row",
-    justifyContent: "space-between",
+    gap: 20,
   },
   date: {
+    width: 70,
     fontSize: 12,
     color: "#FF7235",
     fontFamily: "Poppins",
   },
   title: {
-    fontSize: 10,
+    fontSize: 12,
     fontFamily: "Poppins",
   },
   message: {

@@ -7,21 +7,20 @@ import { RefreshControl } from "react-native-gesture-handler";
 
 const notification = () => {
   const [data, setData] = useState<any>([]);
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState(true);
 
   const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
+    setData([]);
+    fetchNotification();
   }, []);
 
-  useEffect(() => {
-    const fetchNotification = async () => {
-      const res = await getNotificationInbox(9849, "MLENeeUtxrJE0rYHESEHYO");
-      setData(res);
-    };
+  const fetchNotification = async () => {
+    const res = await getNotificationInbox(9849, "MLENeeUtxrJE0rYHESEHYO");
+    setRefreshing(false);
+    setData(res);
+  };
 
+  useEffect(() => {
     fetchNotification();
   }, []);
   return (

@@ -15,7 +15,7 @@ import useDoc from "../../hooks/useDoc";
 
 export default function Monitoring() {
   const [isEnabled, setIsEnabled] = useState(false);
-  const [points, setPoints] = useState<number>();
+  const [points, setPoints] = useState<number>(0);
   const [date, setDate] = useState("");
   const [history, setHistory] = useState<any>("");
   const colorScheme = useColorScheme();
@@ -50,6 +50,15 @@ export default function Monitoring() {
     await updateDoc(docRef, payload);
   };
 
+  const updateTime = async () => {
+    const timeRef = collection(FIREBASE_DB, "tools");
+    const docRef = doc(timeRef, "time");
+    const payload = {
+      time: "0 jam 0 menit",
+    };
+    await updateDoc(docRef, payload);
+  };
+
   const createHistory = async () => {
     const historyRef = collection(FIREBASE_DB, "history");
     const docRef = doc(historyRef, history);
@@ -75,10 +84,10 @@ export default function Monitoring() {
   };
 
   const onPress = () => {
-    setIsEnabled(!data?.kontrol);
     updateData();
+    updateTime();
     closeModal();
-    if (isEnabled === false) {
+    if (data?.kontrol === false) {
       createHistory();
     }
   };

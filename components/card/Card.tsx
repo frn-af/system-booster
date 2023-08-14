@@ -33,12 +33,6 @@ const DATA: Data[] = [
   },
 ];
 
-// const renderItem = ({ item }: { item: Data }) => {
-//   return (
-
-//   );
-// };
-
 export default function Card() {
   const scrollX = React.useRef(new Animated.Value(0)).current;
   const colorScheme = useColorScheme();

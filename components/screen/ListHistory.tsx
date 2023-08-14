@@ -4,6 +4,7 @@ import { collection, onSnapshot, orderBy, query } from "@firebase/firestore";
 import { FIREBASE_DB } from "../../config/FirebaseConfig";
 import { View } from "../Themed";
 import Accordion from "../accordion/Accordion";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 interface Item {
   id: string;
@@ -16,18 +17,15 @@ interface Item {
 
 const ListHistory = () => {
   const [data, setData] = useState<Item[]>();
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState(true);
 
   const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
+    setData([]);
+    getdata();
   }, []);
 
-  useEffect(() => {
+  const getdata = async () => {
     const historyRef = collection(FIREBASE_DB, "history");
-
     //order by timestamp
     const q = query(historyRef, orderBy("timestamp", "desc"));
 
@@ -39,14 +37,17 @@ const ListHistory = () => {
           ...doc.data(),
         });
       });
+      setRefreshing(false);
       setData(data);
     });
+  };
 
-    return () => subs();
+  useEffect(() => {
+    getdata();
   }, []);
 
   return (
-    <View style={{ paddingBottom: 150 }}>
+    <View style={{ flex: 1 }}>
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}
