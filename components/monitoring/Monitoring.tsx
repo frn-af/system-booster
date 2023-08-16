@@ -74,7 +74,9 @@ export default function Monitoring() {
 
   useEffect(() => {
     const date = new Date();
-    const time = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+    const time = `${date.getDate()}/${
+      date.getMonth() + 1
+    }/${date.getFullYear()}`;
 
     setDate(time);
   }, []);
